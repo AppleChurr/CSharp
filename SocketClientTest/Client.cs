@@ -38,7 +38,7 @@ namespace SocketClientTest
         private async Task ConnectAndSendRepeatedly()
         {
             // 무한 루프를 사용하여 연결 시도를 지속합니다.
-            while (true)
+            while (!IsDisposed)
             {
                 try
                 {
@@ -56,26 +56,15 @@ namespace SocketClientTest
                         NetworkStream stream = client.GetStream();
 
                         // 서버에 메시지를 반복해서 보냅니다.
-                        while (true)
+                        while (!IsDisposed)
                         {
-                            // 메시지 카운트를 증가시킵니다.
-                            messageCount++;
-                            // 보낼 메시지를 구성합니다.
-                            string message = $"Hello, Server! Message number: {messageCount}";
-                            byte[] data = Encoding.ASCII.GetBytes(message);
+                            string message = ComposeMessage();
+                            await cSocketHelper.SendDataAsync(stream, message);
+                            
+                            string response = await cSocketHelper.ReceiveDataAsync(stream);
+                            ProcessReceivedData(response);
 
-                            // 메시지를 서버에 보냅니다.
-                            await stream.WriteAsync(data, 0, data.Length);
-                            cSocketHelper.AppendText(null, $"Sent: {message}");
-
-                            // 서버로부터 응답을 기다립니다.
-                            data = new byte[256];
-                            int bytes = await stream.ReadAsync(data, 0, data.Length);
-                            string responseData = Encoding.ASCII.GetString(data, 0, bytes);
-                            cSocketHelper.AppendText(null, $"Received: {responseData}");
-
-                            // 다음 메시지를 보내기 전에 3초 동안 대기합니다.
-                            await Task.Delay(3000);
+                            await Task.Delay(3000); // 3초 대기
                         }
                     }
                 }
@@ -88,5 +77,15 @@ namespace SocketClientTest
             }
         }
 
+        private string ComposeMessage()
+        {
+            return $"Hello, Server! Message number: {++messageCount}";
+        }
+
+        private void ProcessReceivedData(string data)
+        {
+            // 수신 데이터 처리 로직
+            Console.WriteLine($"Received: {data}");
+        }
     }
 }

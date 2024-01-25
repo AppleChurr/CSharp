@@ -96,22 +96,18 @@ namespace SocketTest
                 Byte[] bytes = new Byte[256];
                 String data = null;
 
-                // 클라이언트와의 네트워크 스트림을 가져옵니다.
-                NetworkStream stream = client.GetStream();
-
-                // 데이터를 받고, 변환하여 다시 보내는 작업을 반복합니다.
-                int i;
-                while ((i = await stream.ReadAsync(bytes, 0, bytes.Length)) != 0)
+                using (client)
+                using (NetworkStream stream = client.GetStream())
                 {
-                    data = Encoding.ASCII.GetString(bytes, 0, i);
-                    cSocketHelper.AppendText(null, $"Received: {data}");
+                    while (!IsDisposed)
+                    {
+                        string receivedData = await cSocketHelper.ReceiveDataAsync(stream);
+                        if (receivedData == null) break; // 클라이언트 연결 종료
 
-                    data = data.ToUpper();
-
-                    byte[] msg = Encoding.ASCII.GetBytes(data);
-
-                    await stream.WriteAsync(msg, 0, msg.Length);
-                    cSocketHelper.AppendText(null, $"Sent: {data}");
+                        Console.WriteLine($"Received: {receivedData}");
+                        string response = ProcessReceivedData(receivedData);
+                        await cSocketHelper.SendDataAsync(stream, response);
+                    }
                 }
             }
             catch (Exception e)
@@ -132,5 +128,12 @@ namespace SocketTest
 
             base.OnFormClosing(e);
         }
+
+        private string ProcessReceivedData(string data)
+        {
+            // 데이터 처리 로직
+            return data.ToUpper(); // 예시: 받은 데이터를 대문자로 변환
+        }
+
     }
 }

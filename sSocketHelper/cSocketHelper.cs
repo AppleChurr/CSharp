@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 // 네임스페이스 sSocketHelper 선언.
@@ -73,6 +75,19 @@ namespace sSocketHelper
             {
                 Console.WriteLine(text);
             }
+        }
+
+        public static async Task<string> ReceiveDataAsync(NetworkStream stream)
+        {
+            byte[] buffer = new byte[1024];
+            int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+            return bytesRead > 0 ? Encoding.UTF8.GetString(buffer, 0, bytesRead) : null;
+        }
+
+        public static async Task SendDataAsync(NetworkStream stream, string data)
+        {
+            byte[] buffer = Encoding.UTF8.GetBytes(data);
+            await stream.WriteAsync(buffer, 0, buffer.Length);
         }
     }
 }
