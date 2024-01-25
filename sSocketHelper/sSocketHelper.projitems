@@ -9,6 +9,8 @@
     <Import_RootNamespace>sSocketHelper</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)cSocketClientManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)cSocketHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)cSocketServerManager.cs" />
   </ItemGroup>
 </Project>

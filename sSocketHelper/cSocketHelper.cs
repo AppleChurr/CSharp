@@ -80,12 +80,21 @@ namespace sSocketHelper
         public static async Task<string> ReceiveDataAsync(NetworkStream stream)
         {
             byte[] buffer = new byte[1024];
-            int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-            return bytesRead > 0 ? Encoding.UTF8.GetString(buffer, 0, bytesRead) : null;
+
+            if (stream.DataAvailable)
+            {
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                return bytesRead > 0 ? Encoding.UTF8.GetString(buffer, 0, bytesRead) : null;
+            }
+            else
+                return null;
         }
+
+
 
         public static async Task SendDataAsync(NetworkStream stream, string data)
         {
+            Console.WriteLine($"[cSocketHelper] Send Message {data}");
             byte[] buffer = Encoding.UTF8.GetBytes(data);
             await stream.WriteAsync(buffer, 0, buffer.Length);
         }
