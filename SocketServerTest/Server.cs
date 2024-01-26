@@ -25,7 +25,7 @@ namespace SocketTest
             manager = new cSocketServerManager(textBox1.Text, int.Parse(textBox2.Text));
             manager.Connected += Manager_Connected;
             manager.Disconnected += Manager_Disconnected;
-            manager.eventReceived += Manager_Received;
+            manager.Received += Manager_Received;
         }
 
         private void Manager_Received(object sender, string e)

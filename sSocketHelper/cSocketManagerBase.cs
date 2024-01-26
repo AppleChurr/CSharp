@@ -23,7 +23,7 @@ namespace sSocketManager
         public readonly object sendLock = new object();
         public Queue<string> sendQueue = new Queue<string>();
 
-        public event EventHandler<string> eventReceived; // 메시지 수신 시 발생하는 이벤트.
+        public event EventHandler<string> Received; // 메시지 수신 시 발생하는 이벤트.
 
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace sSocketManager
                     string receivedData = await ReceiveDataAsync(stream);
 
                     if (receivedData != null)
-                        eventReceived?.Invoke(this, receivedData);
+                        Received?.Invoke(this, receivedData);
                 }
 
                 Thread.Sleep(10);

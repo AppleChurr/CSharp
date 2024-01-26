@@ -15,7 +15,6 @@ namespace sSocketManager
     public class cSocketServerManager : cSocketManagerBase
     {
         // 서버의 다양한 이벤트를 위한 이벤트 핸들러.
-        public event EventHandler<string> Received; // 메시지 수신 시 발생하는 이벤트.
         public event EventHandler Connected; // 클라이언트 연결 시 발생하는 이벤트.
         public event EventHandler Disconnected; // 클라이언트 연결 해제 시 발생하는 이벤트.
 
@@ -30,12 +29,6 @@ namespace sSocketManager
             localAddr = ParseIPAddress(ipAddress);
             this.connectionPort = port;
 
-            eventReceived += CSocketServerManager_eventReceived;
-        }
-
-        private void CSocketServerManager_eventReceived(object sender, string e)
-        {
-            Received?.Invoke(this, e);
         }
 
         /// <summary>
