@@ -3,29 +3,45 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using sSocketHelper;
+using sSocketManager;
 
-namespace sSocketHelper
+namespace sSocketManager
 {
-    public class cSocketClientManager
+    /// <summary>
+    /// TCP 클라이언트 통신을 관리하는 클래스입니다.
+    /// </summary>
+    public class cSocketClientManager : cSocketManagerBase
     {
-        private TcpClient client;
-        private string serverIp;
-        private int serverPort;
-        private bool isClientRunning;
-        private readonly object sendLock = new object();
-        private Queue<string> sendQueue = new Queue<string>();
+        //private TcpClient client; // TCP 클라이언트 객체.
+        //private string connectionIp; // 연결할 서버의 IP 주소.
+        //private int connectionPort; // 연결할 서버의 포트 번호.
+        //private bool isRunning; // 클라이언트 실행 상태를 나타내는 플래그.
 
-        public event EventHandler<string> Received;
-        public event EventHandler Connected;
-        public event EventHandler Disconnected;
+        //private readonly object sendLock = new object(); // 송신 큐 동기화를 위한 락 객체.
+        //private Queue<string> sendQueue = new Queue<string>(); // 송신할 메시지를 저장하는 큐.
+
+        // 클라이언트의 다양한 이벤트를 위한 이벤트 핸들러.
+        public event EventHandler<string> Received; // 메시지 수신 시 발생하는 이벤트.
+        public event EventHandler Connected; // 서버 연결 시 발생하는 이벤트.
+        public event EventHandler Disconnected; // 연결 해제 시 발생하는 이벤트.
 
         public cSocketClientManager(string serverIp, int serverPort)
         {
-            this.serverIp = serverIp;
-            this.serverPort = serverPort;
+            this.connectionIp = serverIp;
+            this.connectionPort = serverPort;
+
+            eventReceived += CSocketClientManager_eventReceived;
         }
 
+        private void CSocketClientManager_eventReceived(object sender, string e)
+        {
+            Received?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// 클라이언트를 시작하는 메서드입니다.
+        /// 서버에 연결을 시도하고, 연결이 성공하면 메시지 수신 및 송신을 시작합니다.
+        /// </summary>
         public void StartClient()
         {
             Task.Run(async () =>
@@ -33,13 +49,13 @@ namespace sSocketHelper
                 try
                 {
                     client = new TcpClient();
-                    await client.ConnectAsync(serverIp, serverPort);
-                    isClientRunning = true;
+                    await client.ConnectAsync(connectionIp, connectionPort);
+                    isRunning = true;
                     Connected?.Invoke(this, EventArgs.Empty);
 
                     try
                     {
-                        while (isClientRunning)
+                        while (isRunning)
                         {
                             if (client == null)
                                 client = new TcpClient();
@@ -48,7 +64,7 @@ namespace sSocketHelper
                             {
                                 try
                                 {
-                                    await client.ConnectAsync(serverIp, serverPort);
+                                    await client.ConnectAsync(connectionIp, connectionPort);
                                 }
                                 catch (Exception e)
                                 {
@@ -61,12 +77,12 @@ namespace sSocketHelper
                             {
                                 try
                                 {
-                                    while (isClientRunning)
+                                    while (isRunning)
                                     {
                                         await stream.WriteAsync(new byte[] { byte.MinValue }, 0, 0);
 
-                                        await SendMessagesAsync(stream);
                                         await ReceiveMessagesAsync(stream);
+                                        await SendMessagesAsync(stream);
 
                                         await Task.Delay(500); // 0.5초 대기
                                     }
@@ -103,62 +119,6 @@ namespace sSocketHelper
                     client?.Close();
                 }
             });
-        }
-
-        public void StopClient()
-        {
-            isClientRunning = false;
-            client?.Close();
-        }
-
-        private async Task ReceiveMessagesAsync(NetworkStream stream)
-        {
-            try
-            {
-                if (stream.DataAvailable)
-                {
-                    string receivedData = await cSocketHelper.ReceiveDataAsync(stream);
-
-                    if (receivedData != null)
-                        Received?.Invoke(this, receivedData);
-                }
-
-                Thread.Sleep(10);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-        private async Task SendMessagesAsync(NetworkStream stream)
-        {
-            try
-            {
-                string message = null;
-                lock (sendLock)
-                {
-                    if (sendQueue.Count > 0)
-                        message = sendQueue.Dequeue();
-                }
-
-                if (message != null)
-                    await cSocketHelper.SendDataAsync(stream, message);
-
-                Thread.Sleep(10);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-        public void EnqueueMessage(string message)
-        {
-            lock (sendLock)
-            {
-                sendQueue.Enqueue(message);
-            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using sSocketHelper;
+using sSocketManager;
 
 namespace SocketClientTest
 {
@@ -11,7 +11,7 @@ namespace SocketClientTest
         public Client()
         {
             InitializeComponent();
-            clientManager = new cSocketClientManager(textBox1.Text, cSocketHelper.ParsePort(textBox2.Text));
+            clientManager = new cSocketClientManager(textBox1.Text, int.Parse(textBox2.Text));
             clientManager.Connected += OnConnected;
             clientManager.Disconnected += OnDisconnected;
             clientManager.Received += OnReceived;
@@ -19,12 +19,12 @@ namespace SocketClientTest
 
         private void OnConnected(object sender, EventArgs e)
         {
-            cSocketHelper.AppendText(null, "Connected to server.");
+            Console.WriteLine("Connected to server.");
         }
 
         private void OnDisconnected(object sender, EventArgs e)
         {
-            cSocketHelper.AppendText(null, "Disconnected from server.");
+            Console.WriteLine("Disconnected from server.");
         }
 
         private void OnReceived(object sender, string data)

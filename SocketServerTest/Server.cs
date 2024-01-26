@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
-using sSocketHelper;
+using sSocketManager;
 
 namespace SocketTest
 {
@@ -25,7 +25,7 @@ namespace SocketTest
             manager = new cSocketServerManager(textBox1.Text, int.Parse(textBox2.Text));
             manager.Connected += Manager_Connected;
             manager.Disconnected += Manager_Disconnected;
-            manager.Received += Manager_Received;
+            manager.eventReceived += Manager_Received;
         }
 
         private void Manager_Received(object sender, string e)
@@ -51,7 +51,7 @@ namespace SocketTest
 
         private void button2_Click(object sender, EventArgs e)
         {
-            manager.EnqueueResponse("Hi! I'm Server!");
+            manager.EnqueueMessage("Hi! I'm Server!");
         }
     }
 }
