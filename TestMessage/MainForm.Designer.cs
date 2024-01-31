@@ -31,6 +31,8 @@ namespace TestMessage
         {
             this.btnEnqueue = new System.Windows.Forms.Button();
             this.btnDequeue = new System.Windows.Forms.Button();
+            this.nQueueSize = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.nQueueSize)).BeginInit();
             this.SuspendLayout();
             // 
             // btnEnqueue
@@ -53,15 +55,35 @@ namespace TestMessage
             this.btnDequeue.UseVisualStyleBackColor = true;
             this.btnDequeue.Click += new System.EventHandler(this.btnDequeue_Click);
             // 
+            // nQueueSize
+            // 
+            this.nQueueSize.Location = new System.Drawing.Point(216, 12);
+            this.nQueueSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nQueueSize.Name = "nQueueSize";
+            this.nQueueSize.Size = new System.Drawing.Size(120, 21);
+            this.nQueueSize.TabIndex = 1;
+            this.nQueueSize.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nQueueSize.ValueChanged += new System.EventHandler(this.nQueueSize_ValueChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(438, 162);
+            this.Controls.Add(this.nQueueSize);
             this.Controls.Add(this.btnDequeue);
             this.Controls.Add(this.btnEnqueue);
             this.Name = "MainForm";
             this.Text = "Message Test Tool";
+            ((System.ComponentModel.ISupportInitialize)(this.nQueueSize)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -70,6 +92,7 @@ namespace TestMessage
 
         private System.Windows.Forms.Button btnEnqueue;
         private System.Windows.Forms.Button btnDequeue;
+        private System.Windows.Forms.NumericUpDown nQueueSize;
     }
 }
 
