@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMessage", "TestMessage\TestMessage.csproj", "{8AE0246B-A5BE-4E52-8AA9-BAF085B677E8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "sMessage", "sMessage\sMessage.shproj", "{DC3EF2BD-4CF3-4B80-BF6E-D1190E15E3E1}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		sMessage\sMessage.projitems*{8ae0246b-a5be-4e52-8aa9-baf085b677e8}*SharedItemsImports = 4
+		sMessage\sMessage.projitems*{dc3ef2bd-4cf3-4b80-bf6e-d1190e15e3e1}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AE0246B-A5BE-4E52-8AA9-BAF085B677E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AE0246B-A5BE-4E52-8AA9-BAF085B677E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AE0246B-A5BE-4E52-8AA9-BAF085B677E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AE0246B-A5BE-4E52-8AA9-BAF085B677E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B640788A-F3FA-4AE3-B16B-7F992D9D3AAD}
+	EndGlobalSection
+EndGlobal
