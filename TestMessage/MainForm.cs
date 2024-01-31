@@ -46,19 +46,16 @@ namespace TestMessage
         private void btnEnqueue_Click(object sender, EventArgs e)
         {
             queue.Message = "테스트 메시지";
-            Console.WriteLine("큐 용량 : " + queue.Count + " / " + queue.Size + "\n");
         }
 
         private void btnDequeue_Click(object sender, EventArgs e)
         {
             Console.WriteLine(queue.Message);
-            Console.WriteLine("큐 용량 : " + queue.Count + " / " + queue.Size + "\n");
         }
 
         private void nQueueSize_ValueChanged(object sender, EventArgs e)
         {
             queue.Size = (int)nQueueSize.Value;
-            Console.WriteLine("큐 용량 : " + queue.Count + " / " + queue.Size + "\n");
         }
     }
 }
