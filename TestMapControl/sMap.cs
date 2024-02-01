@@ -179,70 +179,68 @@ namespace sMap
                 if (MainTilePath == "" || TileFmt == "")
                     continue;
 
-
                 int nWTiles = NumTileWidth;
                 int nHTiles = NumTileHeight;
 
                 List<int> Xaxis = new List<int>();
                 List<int> Yaxis = new List<int>();
 
-                    for (int ii = 0; ii < nWTiles; ii++)
-                        Xaxis.Add(X + ii);
+                for (int ii = 0; ii < nWTiles; ii++)
+                    Xaxis.Add(X + ii);
 
-                    for (int ii = 0; ii < nHTiles; ii++)
-                        Yaxis.Add(Y + ii);
+                for (int ii = 0; ii < nHTiles; ii++)
+                    Yaxis.Add(Y + ii);
 
-                    try
+                try
+                {
+                    using (Bitmap map = GetBitmap())
                     {
-
-                        using (Bitmap map = GetBitmap())
+                        using (var g = Graphics.FromImage(map))
+                        using (var _bg = BufferedGraphicsManager.Current.Allocate(g, new Rectangle(0, 0, map.Width, map.Height)))
                         {
-                            using (var g = Graphics.FromImage(map))
-                            using (var _bg = BufferedGraphicsManager.Current.Allocate(g, new Rectangle(0, 0, map.Width, map.Height)))
-                            {
-                                Graphics _graphics = _bg.Graphics;
+                            Graphics _graphics = _bg.Graphics;
 
-                                _graphics.CompositingMode = CompositingMode.SourceOver;
-                                _graphics.CompositingQuality = CompositingQuality.HighSpeed;
-                                _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-                                _graphics.SmoothingMode = SmoothingMode.None;
-                                _graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                            _graphics.CompositingMode = CompositingMode.SourceOver;
+                            _graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                            _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                            _graphics.SmoothingMode = SmoothingMode.None;
+                            _graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 
-                                int _x = 0, _y = 0;
+                            int _x = 0, _y = 0;
 
-                                for (_y = 0; _y < nHTiles; _y++)
-                                    for (_x = 0; _x < nWTiles; _x++)
+                            for (_y = 0; _y < nHTiles; _y++)
+                                for (_x = 0; _x < nWTiles; _x++)
+                                {
+                                    if (TileLocalPath)
                                     {
-                                        if (TileLocalPath)
-                                        {
-                                            string impath = string.Format(MainTilePath + "{0}\\{1}\\{2}." + TileFmt, MLvlNow, Xaxis[_x], Yaxis[_y]).ToString();
-                                            if (!File.Exists(impath))
-                                                impath = string.Format(MainTilePath + "none.png");
+                                        string impath = string.Format(MainTilePath + "{0}\\{1}\\{2}." + TileFmt, MLvlNow, Xaxis[_x], Yaxis[_y]).ToString();
+                                        if (!File.Exists(impath))
+                                            impath = string.Format(MainTilePath + "none.png");
 
-                                            using (var bmp = new Bitmap(impath))
-                                            {
-                                                _graphics.DrawImage(bmp, GetTileRect(_x, _y));
+                                        using (var bmp = new Bitmap(impath))
+                                        {
+                                            _graphics.DrawImage(bmp, GetTileRect(_x, _y));
 #if DEBUG
-                                                _graphics.DrawRectangle(Pens.Magenta, GetTileRect(_x, _y));
+                                            _graphics.DrawRectangle(Pens.Magenta, GetTileRect(_x, _y));
 #endif
-                                            }
                                         }
                                     }
+                                }
 
-                                _bg.Render(g);
-                            }
-
-                            lock (mapLock)
-                            {
-                                TileMap = map;
-                            }
+                            _bg.Render(g);
                         }
 
+                        lock (mapLock)
+                        {
+                            TileMap = map;
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 

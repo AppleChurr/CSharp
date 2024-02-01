@@ -32,12 +32,13 @@ namespace TestMessage
             this.btnEnqueue = new System.Windows.Forms.Button();
             this.btnDequeue = new System.Windows.Forms.Button();
             this.nQueueSize = new System.Windows.Forms.NumericUpDown();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.nQueueSize)).BeginInit();
             this.SuspendLayout();
             // 
             // btnEnqueue
             // 
-            this.btnEnqueue.Location = new System.Drawing.Point(12, 12);
+            this.btnEnqueue.Location = new System.Drawing.Point(12, 9);
             this.btnEnqueue.Name = "btnEnqueue";
             this.btnEnqueue.Size = new System.Drawing.Size(75, 23);
             this.btnEnqueue.TabIndex = 0;
@@ -47,7 +48,8 @@ namespace TestMessage
             // 
             // btnDequeue
             // 
-            this.btnDequeue.Location = new System.Drawing.Point(351, 12);
+            this.btnDequeue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDequeue.Location = new System.Drawing.Point(351, 9);
             this.btnDequeue.Name = "btnDequeue";
             this.btnDequeue.Size = new System.Drawing.Size(75, 23);
             this.btnDequeue.TabIndex = 0;
@@ -57,7 +59,8 @@ namespace TestMessage
             // 
             // nQueueSize
             // 
-            this.nQueueSize.Location = new System.Drawing.Point(216, 12);
+            this.nQueueSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nQueueSize.Location = new System.Drawing.Point(225, 9);
             this.nQueueSize.Minimum = new decimal(new int[] {
             1,
             0,
@@ -73,11 +76,22 @@ namespace TestMessage
             0});
             this.nQueueSize.ValueChanged += new System.EventHandler(this.nQueueSize_ValueChanged);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Location = new System.Drawing.Point(12, 38);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(414, 112);
+            this.panel1.TabIndex = 2;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(438, 162);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.nQueueSize);
             this.Controls.Add(this.btnDequeue);
             this.Controls.Add(this.btnEnqueue);
@@ -93,6 +107,7 @@ namespace TestMessage
         private System.Windows.Forms.Button btnEnqueue;
         private System.Windows.Forms.Button btnDequeue;
         private System.Windows.Forms.NumericUpDown nQueueSize;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
