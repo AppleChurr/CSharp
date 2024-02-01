@@ -8,9 +8,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using static sControl.Map.sAzureMap;
+using static sMap.sAzureMap;
 
-namespace sControl.Map
+namespace sMap
 {
     public enum FOCUSMOVE
     {
@@ -54,14 +54,8 @@ namespace sControl.Map
         
         private static MapHome Home = null;
 
-        public int MAP_LEVEL_NOW { get; set; } = 7;
-        public int MAP_LEVEL_MIN { get; set; } = 5;
-        public int MAP_LEVEL_MAX { get; set; } = 9;
+        //private static Bitmap m_Map;
 
-
-        private static Bitmap m_Map;
-
-        private Size InitSize = new Size(896, 896);
 
         private sTileMap _TileMap = new sTileMap();
 
@@ -102,7 +96,7 @@ namespace sControl.Map
                                 drawGraphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 
                                 // 지도 이미지를 그립니다.
-                                drawGraphics.DrawImage(m_Map, this.ClientRectangle, _TileMap.FocusedRect, GraphicsUnit.Pixel);
+                                drawGraphics.DrawImage(_TileMap.TileMap, this.ClientRectangle, _TileMap.FocusRect, GraphicsUnit.Pixel);
 
                                 // 추가 그리기 옵션을 설정합니다.
                                 drawGraphics.CompositingMode = CompositingMode.SourceOver;
@@ -155,6 +149,10 @@ namespace sControl.Map
             GoHome();
 
             Task.Run(() => DrawWorker_DoWorkAsync());
+
+            _TileMap.MainTilePath = MainTilePath;
+            _TileMap.TileLocalPath = TileLocalPath;
+            _TileMap.TileFmt = tileFmt;
         }
 
         public string TileMapPath
@@ -210,231 +208,118 @@ namespace sControl.Map
         #region Set Tiles
         private void DrawTileMaps(FOCUSMOVE focus)
         {
-            if (focus == FOCUSMOVE.NONE)
-                return;
-            else if (focus == FOCUSMOVE.INIT)
-            {
-                m_Map?.Dispose();
-                m_Map = new Bitmap(_TileMap.Width, _TileMap.Height, PixelFormat.Format24bppRgb);
-            }
+//            if (focus == FOCUSMOVE.NONE)
+//                return;
+//            else if (focus == FOCUSMOVE.INIT)
+//            {
+//                m_Map?.Dispose();
+//                m_Map = _TileMap.GetBitmap();
+//            }
 
-            List<int> Xaxis = new List<int>();
-            List<int> Yaxis = new List<int>();
+//            List<int> Xaxis = new List<int>();
+//            List<int> Yaxis = new List<int>();
 
-            for (int ii = 0; ii < _TileMap.wTile; ii++)
-                Xaxis.Add(_TileMap.X + ii);
+//            for (int ii = 0; ii < _TileMap.NumTileWidth; ii++)
+//                Xaxis.Add(_TileMap.X + ii);
 
-            for (int ii = 0; ii < _TileMap.hTile; ii++)
-                Yaxis.Add(_TileMap.Y + ii);
+//            for (int ii = 0; ii < _TileMap.NumTileHeight; ii++)
+//                Yaxis.Add(_TileMap.Y + ii);
 
-            try
-            {
-                using (var g = Graphics.FromImage(m_Map))
-                {
-                    using (var _bg = BufferedGraphicsManager.Current.Allocate(g, new Rectangle(0, 0, m_Map.Width, m_Map.Height)))
-                    {
-                        Graphics _graphics = _bg.Graphics;
+//            try
+//            {
+//                using (var g = Graphics.FromImage(m_Map))
+//                {
+//                    using (var _bg = BufferedGraphicsManager.Current.Allocate(g, new Rectangle(0, 0, m_Map.Width, m_Map.Height)))
+//                    {
+//                        Graphics _graphics = _bg.Graphics;
 
-                        _graphics.CompositingMode = CompositingMode.SourceOver;
-                        _graphics.CompositingQuality = CompositingQuality.HighSpeed;
-                        _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-                        _graphics.SmoothingMode = SmoothingMode.None;
-                        _graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+//                        _graphics.CompositingMode = CompositingMode.SourceOver;
+//                        _graphics.CompositingQuality = CompositingQuality.HighSpeed;
+//                        _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+//                        _graphics.SmoothingMode = SmoothingMode.None;
+//                        _graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 
-                        int _x = 0, _y = 0;
+//                        int _x = 0, _y = 0;
 
-                        switch (focus)
-                        {
-                            default:
-                            case FOCUSMOVE.INIT:
-                                _graphics.Clear(BackColor);
-                                for (_y = 0; _y < _TileMap.hTile; _y++)
-                                    for (_x = 0; _x < _TileMap.wTile; _x++)
-                                    {
-                                        if (TileLocalPath)
-                                        {
-                                            string impath = string.Format(MainTilePath + "{0}\\{1}\\{2}." + TileFmt, MAP_LEVEL_NOW, Xaxis[_x], Yaxis[_y]).ToString();
-                                            if (!File.Exists(impath))
-                                                impath = string.Format(MainTilePath + "none.png");
+//                        switch (focus)
+//                        {
+//                            default:
+//                            case FOCUSMOVE.INIT:
+//                                _graphics.Clear(BackColor);
+//                                for (_y = 0; _y < _TileMap.NumTileHeight; _y++)
+//                                    for (_x = 0; _x < _TileMap.NumTileWidth; _x++)
+//                                    {
+//                                        if (TileLocalPath)
+//                                        {
+//                                            string impath = string.Format(MainTilePath + "{0}\\{1}\\{2}." + TileFmt, _TileMap.MLvlNow, Xaxis[_x], Yaxis[_y]).ToString();
+//                                            if (!File.Exists(impath))
+//                                                impath = string.Format(MainTilePath + "none.png");
 
-                                            using (var bmp = new Bitmap(impath))
-                                            {
-                                                _graphics.DrawImage(bmp, new Rectangle(_x * _TileMap.TileSize, _y * _TileMap.TileSize, _TileMap.TileSize, _TileMap.TileSize));
-#if DEBUG
-                                                //_graphics.DrawRectangle(Pens.Magenta, new Rectangle(_x * TileSize, _y * TileSize, TileSize, TileSize));
-#endif
-                                            }
+//                                            using (var bmp = new Bitmap(impath))
+//                                            {
+//                                                _graphics.DrawImage(bmp, _TileMap.GetTileRect(_x, _y));
+//#if DEBUG
+//                                                _graphics.DrawRectangle(Pens.Magenta, _TileMap.GetTileRect(_x, _y));
+//#endif
+//                                            }
 
-                                            if (SubTilePath != "")
-                                            {
-                                                string subimpath = string.Format(SubTilePath + "{0}\\{1}\\{2}." + TileFmt, MAP_LEVEL_NOW, Xaxis[_x], Yaxis[_y]).ToString();
-                                                if (File.Exists(subimpath))
-                                                    using (var bmp = new Bitmap(subimpath))
-                                                    {
-                                                        _graphics.DrawImage(bmp, new Rectangle(_x * _TileMap.TileSize, _y * _TileMap.TileSize, _TileMap.TileSize, _TileMap.TileSize), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, ImgAttribute);
-#if DEBUG
-                                                        //_graphics.DrawRectangle(Pens.Magenta, new Rectangle(_x * TileSize, _y * TileSize, TileSize, TileSize));
-#endif
-                                                    }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            using (var _c = new WebClient())
-                                            using (var _s = _c.OpenRead(string.Format(MainTilePath + "{0}\\{1}\\{2}", MAP_LEVEL_NOW, Xaxis[_x], Yaxis[_y]).ToString()))
-                                            using (var _r = new StreamReader(_s))
-                                            using (var bmp = new Bitmap(_r.BaseStream))
-                                            {
-                                                _graphics.DrawImage(bmp, new Rectangle(_x * _TileMap.TileSize, _y * _TileMap.TileSize, _TileMap.TileSize, _TileMap.TileSize));
-#if DEBUG
-                                                //_graphics.DrawRectangle(Pens.Magenta, new Rectangle(_x * TileSize, _y * TileSize, TileSize, TileSize));
-#endif
-                                            }
-                                        }
-                                    }
+//                                            if (SubTilePath != "")
+//                                            {
+//                                                string subimpath = string.Format(SubTilePath + "{0}\\{1}\\{2}." + TileFmt, _TileMap.MLvlNow, Xaxis[_x], Yaxis[_y]).ToString();
+//                                                if (File.Exists(subimpath))
+//                                                    using (var bmp = new Bitmap(subimpath))
+//                                                    {
+//                                                        _graphics.DrawImage(bmp, _TileMap.GetTileRect(_x, _y), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, ImgAttribute);
+//#if DEBUG
+//                                                        _graphics.DrawRectangle(Pens.Magenta, _TileMap.GetTileRect(_x, _y));
+//#endif
+//                                                    }
+//                                            }
+//                                        }
+//                                        else
+//                                        {
+//                                            using (var _c = new WebClient())
+//                                            using (var _s = _c.OpenRead(string.Format(MainTilePath + "{0}\\{1}\\{2}", _TileMap.MLvlNow, Xaxis[_x], Yaxis[_y]).ToString()))
+//                                            using (var _r = new StreamReader(_s))
+//                                            using (var bmp = new Bitmap(_r.BaseStream))
+//                                            {
+//                                                _graphics.DrawImage(bmp, _TileMap.GetTileRect(_x, _y));
+//#if DEBUG
+//                                                _graphics.DrawRectangle(Pens.Magenta, _TileMap.GetTileRect(_x, _y));
+//#endif
+//                                            }
+//                                        }
+//                                    }
 
-                                break;
-                        }
+//                                break;
+//                        }
 
-                        _bg.Render(g);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("지도 데이터가 없습니다.");
-            }
+//                        _bg.Render(g);
+//                    }
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                throw new Exception("지도 데이터가 없습니다.");
+//            }
 
-        }
-        private FOCUSMOVE FocusSet(int _dX, int _dY)
-        {
-            _TileMap.FocusedRect.X -= _dX;
-            _TileMap.FocusedRect.Y -= _dY;
-
-            FOCUSMOVE _focus = FOCUSMOVE.NONE;
-
-            int _stepX, _stepY;
-
-            if (_TileMap.FocusedRect.X <= 0) // 포커스 X가 음수방향으로 이동하는 것은 전체 지도 기준으로 보면, 지도를 오른쪽으로 미는 것
-            {
-                //Console.WriteLine("오른쪽으로 가유...");
-                _stepX = (Math.Abs(_TileMap.FocusedRect.X) / _TileMap.TileSize) + 1;
-                _TileMap.X -= _stepX;
-                _TileMap.FocusedRect.X += (_TileMap.TileSize * _stepX);
-                _focus |= FOCUSMOVE.RIGHT;
-            }
-            else if (_TileMap.FocusedRect.X >= 2 * _TileMap.TileSize)
-            {
-                _stepX = ((_TileMap.FocusedRect.X - 2 * _TileMap.TileSize) / _TileMap.TileSize) + 1;
-                _TileMap.X += _stepX;
-                _TileMap.FocusedRect.X -= (_TileMap.TileSize * _stepX);
-                _focus |= FOCUSMOVE.LEFT;
-                //Console.WriteLine("왼쪽으로 가유...");
-            }
-
-            if (_TileMap.FocusedRect.Y <= 0)
-            {
-                _stepY = (Math.Abs(_TileMap.FocusedRect.Y) / _TileMap.TileSize) + 1;
-                _TileMap.MAP_Y -= _stepY;
-                _TileMap.FocusedRect.Y += (_TileMap.TileSize * _stepY);
-                _focus |= FOCUSMOVE.DOWN;
-                //Console.WriteLine("아래로 가유...");
-            }
-            else if (_TileMap.FocusedRect.Y >= 2 * _TileMap.TileSize)
-            {
-                _stepY = ((_TileMap.FocusedRect.Y - 2 * _TileMap.TileSize) / _TileMap.TileSize) + 1;
-                _TileMap.MAP_Y += _stepY;
-                _TileMap.FocusedRect.Y -= (_TileMap.TileSize * _stepY);
-                _focus |= FOCUSMOVE.UP;
-                //Console.WriteLine("위로 가유...");
-            }
-
-            return _focus;
-        }
-        private void SetFocusedRect(int dx = 0, int dy = 0)
-        {
-            _TileMap.FocusedRect = new Rectangle(_TileMap.TileSize + dx, _TileMap.TileSize + dy, this.Size.Width, this.Size.Height);
-
-            _TileMap.wTile = (int)(((double)Size.Width / (double)_TileMap.TileSize) + 3.0f);
-            _TileMap.hTile = (int)(((double)Size.Height / (double)_TileMap.TileSize) + 3.0f);
-
-            if (_TileMap.wTile == 3 && _TileMap.hTile == 3)
-            {
-                _TileMap.wTile = (int)(((double)InitSize.Width / (double)_TileMap.TileSize) + 3.0f);
-                _TileMap.hTile = (int)(((double)InitSize.Height / (double)_TileMap.TileSize) + 3.0f);
-            }
         }
         #endregion
 
         #region Zoom
         public void ZoomInOut(bool bZin)
         {
-            double[] _oldP;
-            double[] _newP;
-
             if (_mouseLClick.X == -1 && _mouseLClick.Y == -1)
-                _oldP = PointToPosition(new Point(this.ClientRectangle.Width / 2, this.ClientRectangle.Height / 2), MAP_LEVEL_NOW, _TileMap.TileSize, _TileMap.X, _TileMap.Y, _TileMap.FocusedRect);
+                _TileMap.ZoomControl(new Point(this.ClientRectangle.Width / 2, this.ClientRectangle.Height / 2), bZin);
             else
-                _oldP = PointToPosition(_mouseLClick, MAP_LEVEL_NOW, _TileMap.TileSize, _TileMap.X, _TileMap.Y, _TileMap.FocusedRect);
-
-            Point Tilep = PositionToTilePoint(_oldP, MAP_LEVEL_NOW, _TileMap.TileSize);
-            string qdk = TilePointToQuadKey(Tilep, MAP_LEVEL_NOW);
-
-            if (bZin)
-            {
-                Point nTileP = QuadKeyToTilePoint(qdk + "0");
-
-                MAP_LEVEL_NOW++;
-                if (MAP_LEVEL_NOW > MAP_LEVEL_MAX)
-                    MAP_LEVEL_NOW = MAP_LEVEL_MAX;
-                else
-                {
-                    _TileMap.MAP_X = (nTileP.X - 2);
-                    _TileMap.MAP_Y = (nTileP.Y - 2);
-                }
-            }
-            else
-            {
-                Point nTileP = QuadKeyToTilePoint(qdk.Substring(0, qdk.Length - 1));
-
-                MAP_LEVEL_NOW--;
-                if (MAP_LEVEL_NOW < MAP_LEVEL_MIN)
-                    MAP_LEVEL_NOW = MAP_LEVEL_MIN;
-                else
-                {
-                    _TileMap.MAP_X = (nTileP.X - 3);
-                    _TileMap.MAP_Y = (nTileP.Y - 3);
-                }
-            }
-
-            if (_mouseLClick.X == -1 && _mouseLClick.Y == -1)
-                _newP = PointToPosition(new Point(this.ClientRectangle.Width / 2, this.ClientRectangle.Height / 2), MAP_LEVEL_NOW, _TileMap.TileSize, _TileMap.X, _TileMap.Y, _TileMap.FocusedRect);
-            else
-                _newP = PointToPosition(_mouseLClick, MAP_LEVEL_NOW, _TileMap.TileSize, _TileMap.X, _TileMap.Y, _TileMap.FocusedRect);
-
-            Point _oP = PositionToPoint(_oldP, MAP_LEVEL_NOW, _TileMap.TileSize, _TileMap.X, _TileMap.Y, _TileMap.FocusedRect);
-            Point _nP = PositionToPoint(_newP, MAP_LEVEL_NOW, _TileMap.TileSize, _TileMap.X, _TileMap.Y, _TileMap.FocusedRect);
-
-            FocusSet(_nP.X - _oP.X, _nP.Y - _oP.Y);
+                _TileMap.ZoomControl(_mouseLClick, bZin);
 
             DrawTileMaps(FOCUSMOVE.INIT);
         }
         public void ZoomInOut(double[] Position)
         {
-            double[] GrobalPixel = PositionToGlobalPixel(Position, MAP_LEVEL_MAX, _TileMap.TileSize);
-
-            _TileMap.MAP_X = (int)(GrobalPixel[0] / _TileMap.TileSize); // 폴더 이름이 X축 값 
-            _TileMap.MAP_Y = (int)(GrobalPixel[1] / _TileMap.TileSize); // 이미지 이름이 Y축 값
-
-            MAP_LEVEL_NOW = MAP_LEVEL_MAX;
-
-            int dX = (int)GrobalPixel[0] % _TileMap.TileSize;
-            int dY = (int)GrobalPixel[1] % _TileMap.TileSize;
-            SetFocusedRect(dX, dY);
-
-            _TileMap.MAP_X -= _TileMap.wTile / 2;
-            _TileMap.MAP_Y -= _TileMap.hTile / 2;
-
+            _TileMap.ZoomControl(Position);
+            
             DrawTileMaps(FOCUSMOVE.INIT);
         }
         #endregion
@@ -442,12 +327,12 @@ namespace sControl.Map
         #region Homing
         public void SetHome()
         {
-            double[] HomePosition = PointToPosition(_mouseRClick, MAP_LEVEL_NOW, _TileMap.TileSize, _TileMap.X, _TileMap.Y, _TileMap.FocusedRect);
-            double[] GrobalPixel = PositionToGlobalPixel(HomePosition, MAP_LEVEL_NOW, _TileMap.TileSize);
+            double[] HomePosition = PointToPosition(_mouseRClick, _TileMap);
+            double[] GrobalPixel = PositionToGlobalPixel(HomePosition, _TileMap);
 
             Home.XTile = (int)(GrobalPixel[0] / _TileMap.TileSize);
             Home.YTile = (int)(GrobalPixel[1] / _TileMap.TileSize);
-            Home.ZoomLevel = MAP_LEVEL_NOW;
+            Home.ZoomLevel = _TileMap.MLvlNow;
 
             Home.dx = (int)GrobalPixel[0] % _TileMap.TileSize;
             Home.dy = (int)GrobalPixel[1] % _TileMap.TileSize;
@@ -458,15 +343,15 @@ namespace sControl.Map
             {
                 if (Home != null)
                 {
-                    _TileMap.MAP_X = Home.XTile; // 폴더 이름이 X축 값 
-                    _TileMap.MAP_Y = Home.YTile; // 이미지 이름이 Y축 값
+                    _TileMap.X = Home.XTile; // 폴더 이름이 X축 값 
+                    _TileMap.Y = Home.YTile; // 이미지 이름이 Y축 값
 
-                    MAP_LEVEL_NOW = Home.ZoomLevel;
+                    _TileMap.MLvlNow = Home.ZoomLevel;
 
-                    SetFocusedRect(Home.dx, Home.dy);
+                    _TileMap.SetFocusedRect(Home.dx, Home.dy, this.Size);
 
-                    _TileMap.MAP_X -= _TileMap.wTile / 2;
-                    _TileMap.MAP_Y -= _TileMap.hTile / 2;
+                    _TileMap.X -= _TileMap.NumTileWidth / 2;
+                    _TileMap.Y -= _TileMap.NumTileHeight / 2;
 
                     DrawTileMaps(FOCUSMOVE.INIT);
                 }
@@ -482,7 +367,7 @@ namespace sControl.Map
         #region Override Functions
         protected override void OnResize(EventArgs e)
         {
-            SetFocusedRect();
+            _TileMap.SetFocusedRect(0, 0, this.Size);
             DrawTileMaps(FOCUSMOVE.INIT);
             base.OnResize(e);
         }
@@ -516,7 +401,7 @@ namespace sControl.Map
             base.OnMouseMove(e);
 
             if (_mouseHold && !_viewControl)
-                DrawTileMaps(FocusSet((e.X - _mouseLClick.X), (e.Y - _mouseLClick.Y)));
+                DrawTileMaps(_TileMap.FocusSet((e.X - _mouseLClick.X), (e.Y - _mouseLClick.Y)));
 
             _mouseLClick = e.Location;
         }

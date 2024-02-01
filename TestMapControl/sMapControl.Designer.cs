@@ -1,5 +1,5 @@
 ﻿
-namespace sControl.Map
+namespace sMap
 {
     partial class sMapControl
     {

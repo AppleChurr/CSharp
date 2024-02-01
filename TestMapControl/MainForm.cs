@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using sControl.Map;
+using sMap;
 
 namespace TestMapControl
 {
