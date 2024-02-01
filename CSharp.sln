@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMessage", "TestMessage\
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "sMessage", "sMessage\sMessage.shproj", "{DC3EF2BD-4CF3-4B80-BF6E-D1190E15E3E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMapControl", "TestMapControl\TestMapControl.csproj", "{1C0404BF-63BB-4D91-A1C7-C0943BC17C47}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		sMessage\sMessage.projitems*{8ae0246b-a5be-4e52-8aa9-baf085b677e8}*SharedItemsImports = 4
@@ -21,6 +23,10 @@ Global
 		{8AE0246B-A5BE-4E52-8AA9-BAF085B677E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AE0246B-A5BE-4E52-8AA9-BAF085B677E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AE0246B-A5BE-4E52-8AA9-BAF085B677E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C0404BF-63BB-4D91-A1C7-C0943BC17C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C0404BF-63BB-4D91-A1C7-C0943BC17C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C0404BF-63BB-4D91-A1C7-C0943BC17C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C0404BF-63BB-4D91-A1C7-C0943BC17C47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
