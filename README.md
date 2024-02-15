@@ -35,3 +35,6 @@ clientManager.StartClient();
 
 ### 주의
 이 README.md는 ChatGPT를 통해 작성되었습니다.
+
+# CSharp
+Customized C# Code, shared project
