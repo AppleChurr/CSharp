@@ -41,7 +41,7 @@ namespace SocketClientTest
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
+            this.button1.Text = "열기";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -63,11 +63,11 @@ namespace SocketClientTest
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(334, 12);
+            this.button2.Location = new System.Drawing.Point(264, 12);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(145, 23);
             this.button2.TabIndex = 5;
-            this.button2.Text = "button2";
+            this.button2.Text = "메시지 전송";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -75,7 +75,7 @@ namespace SocketClientTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(421, 45);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);

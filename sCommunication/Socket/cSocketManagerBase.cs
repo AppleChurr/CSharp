@@ -140,6 +140,7 @@ namespace sSocketManager
             lock (sendLock)
             {
                 sendQueue.Enqueue(message);
+                Console.WriteLine("[Enqueue] " + message);
             }
         }
 

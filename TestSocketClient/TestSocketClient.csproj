@@ -83,6 +83,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <Import Project="..\sSocketHelper\sSocketHelper.projitems" Label="Shared" />
+  <Import Project="..\sCommunication\sCommunication.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

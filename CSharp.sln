@@ -40,12 +40,12 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		sCommunication\sCommunication.projitems*{08b75b16-63c4-435d-b63f-d4f7418af92e}*SharedItemsImports = 4
-		sSocketHelper\sSocketHelper.projitems*{55861586-b39d-4823-b46a-7bafc6ce15eb}*SharedItemsImports = 4
+		sCommunication\sCommunication.projitems*{55861586-b39d-4823-b46a-7bafc6ce15eb}*SharedItemsImports = 4
 		sControls\sControls.projitems*{8ae0246b-a5be-4e52-8aa9-baf085b677e8}*SharedItemsImports = 4
 		sMessage\sMessage.projitems*{8ae0246b-a5be-4e52-8aa9-baf085b677e8}*SharedItemsImports = 4
 		sCommunication\sCommunication.projitems*{8e7da4db-f95c-4876-89b9-ddcfa875a849}*SharedItemsImports = 13
 		sControls\sControls.projitems*{a048563d-2f03-45bf-ae2c-8de63237d2b3}*SharedItemsImports = 13
-		sSocketHelper\sSocketHelper.projitems*{ad765201-9df2-432e-9317-7b0cf0710d13}*SharedItemsImports = 4
+		sCommunication\sCommunication.projitems*{ad765201-9df2-432e-9317-7b0cf0710d13}*SharedItemsImports = 4
 		sMessage\sMessage.projitems*{dc3ef2bd-4cf3-4b80-bf6e-d1190e15e3e1}*SharedItemsImports = 13
 		sCommunication\sCommunication.projitems*{ee5383c0-c31f-4857-9d9a-b5ecab9abdc6}*SharedItemsImports = 4
 	EndGlobalSection
