@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{55861586-B39D-4823-B46A-7BAFC6CE15EB}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SocketClientTest</RootNamespace>
-    <AssemblyName>SocketClientTest</AssemblyName>
+    <RootNamespace>TestSocketClient</RootNamespace>
+    <AssemblyName>TestSocketClient</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -68,6 +68,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

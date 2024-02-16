@@ -10,5 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)sNamedPipe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Socket\cSocketClientManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Socket\cSocketManagerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Socket\cSocketServerManager.cs" />
   </ItemGroup>
 </Project>
