@@ -37,10 +37,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSocketClient", "TestSoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSocketServer", "TestSocketServer\TestSocketServer.csproj", "{AD765201-9DF2-432E-9317-7B0CF0710D13}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "sGISContainers", "sGISContainers\sGISContainers.shproj", "{395F7947-6C0F-47BC-B139-C86EE67FE738}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGeoJsonReader", "TestGeoJsonReader\TestGeoJsonReader.csproj", "{5D55084D-CE57-4C5B-93DD-3DAE6572FD90}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		sCommunication\sCommunication.projitems*{08b75b16-63c4-435d-b63f-d4f7418af92e}*SharedItemsImports = 4
+		sGISContainers\sGISContainers.projitems*{395f7947-6c0f-47bc-b139-c86ee67fe738}*SharedItemsImports = 13
 		sCommunication\sCommunication.projitems*{55861586-b39d-4823-b46a-7bafc6ce15eb}*SharedItemsImports = 4
+		sGISContainers\sGISContainers.projitems*{5d55084d-ce57-4c5b-93dd-3dae6572fd90}*SharedItemsImports = 4
 		sControls\sControls.projitems*{8ae0246b-a5be-4e52-8aa9-baf085b677e8}*SharedItemsImports = 4
 		sMessage\sMessage.projitems*{8ae0246b-a5be-4e52-8aa9-baf085b677e8}*SharedItemsImports = 4
 		sCommunication\sCommunication.projitems*{8e7da4db-f95c-4876-89b9-ddcfa875a849}*SharedItemsImports = 13
@@ -82,6 +88,10 @@ Global
 		{AD765201-9DF2-432E-9317-7B0CF0710D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD765201-9DF2-432E-9317-7B0CF0710D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD765201-9DF2-432E-9317-7B0CF0710D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D55084D-CE57-4C5B-93DD-3DAE6572FD90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D55084D-CE57-4C5B-93DD-3DAE6572FD90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D55084D-CE57-4C5B-93DD-3DAE6572FD90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D55084D-CE57-4C5B-93DD-3DAE6572FD90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +112,8 @@ Global
 		{8B0575D0-57A5-4B60-9FF5-CB39029E2DDE} = {CC918628-F224-4EA8-B481-CED5361F4AE6}
 		{55861586-B39D-4823-B46A-7BAFC6CE15EB} = {18F7BFB5-0E2F-4511-88CE-D5E4F8168D00}
 		{AD765201-9DF2-432E-9317-7B0CF0710D13} = {18F7BFB5-0E2F-4511-88CE-D5E4F8168D00}
+		{395F7947-6C0F-47BC-B139-C86EE67FE738} = {D9B466EA-6DAF-45DC-828A-8F4A8190495C}
+		{5D55084D-CE57-4C5B-93DD-3DAE6572FD90} = {8B0575D0-57A5-4B60-9FF5-CB39029E2DDE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B640788A-F3FA-4AE3-B16B-7F992D9D3AAD}
