@@ -9,6 +9,17 @@
     <Import_RootNamespace>sGISContainers</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)cGeoJson.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GeoJson\cGeoJson.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shape\FileHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shape\FileRecord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shape\Objects.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shape\oESRIShape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shape\Shape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shape\ShapePloygonZ.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shape\ShapePointZ.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shape\ShapePolyLineZ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)GeoJson\" />
   </ItemGroup>
 </Project>

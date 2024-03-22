@@ -23,6 +23,7 @@ namespace sGISContainers.GeoJson
     /// </summary>
     public class cGeoJson : IGeoJosn
     {
+        public string FileName { get; set; } = "*.geojson";
         public string type { get; set; } = "FeatureCollection";
         public List<cGeoObject> features { get; set; } = new List<cGeoObject>();
 
